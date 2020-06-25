@@ -1,0 +1,66 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.squareup.sqldelight'
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        applicationId "co.kr.chanroid.myapplication"
+        minSdkVersion 26
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.3.72'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.navigation:navigation-fragment:2.3.0'
+    implementation 'com.android.support:design:28.0.0'
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'androidx.test.espresso:espresso-core:3.3.0-rc01'
+    testImplementation 'androidx.test:runner:1.3.0-rc01'
+
+    api 'com.google.dagger:dagger-android:2.28.1'
+    api 'com.google.dagger:dagger-android-support:2.28.1'
+    implementation 'com.google.dagger:dagger:2.28.1'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.28.1'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.28.1'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    implementation 'com.squareup.retrofit2:retrofit-converters:2.8.1'
+    implementation 'com.squareup.retrofit2:retrofit-adapters:2.8.1'
+
+
+    //noinspection AnnotationProcessorOnCompilePath
+    compileOnly 'org.projectlombok:lombok:1.18.12'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex:rxandroid:1.2.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    implementation "com.squareup.sqldelight:android-driver:1.4.0"
+}

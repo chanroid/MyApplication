@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "co.kr.chanroid.myapplication"
-        minSdkVersion 26
+        minSdkVersion 25
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -27,6 +27,9 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
 }
 
 dependencies {
@@ -52,6 +55,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
     implementation 'com.squareup.retrofit2:retrofit-converters:2.8.1'
     implementation 'com.squareup.retrofit2:retrofit-adapters:2.8.1'
+    implementation "com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0"
+
 
 
     //noinspection AnnotationProcessorOnCompilePath

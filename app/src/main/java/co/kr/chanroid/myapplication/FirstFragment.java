@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.squareup.sqldelight.android.AndroidSqliteDriver;
@@ -22,6 +23,9 @@ import co.kr.chanroid.myapplication.retrofit.Contacts;
 import co.kr.chanroid.myapplication.retrofit.RetrofitService;
 import co.kr.chanroid.myapplication.sqldelight.ContactsQueries;
 import dagger.android.support.DaggerFragment;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Scheduler;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class FirstFragment extends DaggerFragment {
     @Inject
@@ -43,9 +47,6 @@ public class FirstFragment extends DaggerFragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setMessage("불러오는중");
         view.findViewById(R.id.button_first).setOnClickListener(view1 -> {
 //                NavHostFragment.findNavController(FirstFragment.this)
 //                        .navigate(R.id.action_FirstFragment_to_SecondFragment);
@@ -53,16 +54,29 @@ public class FirstFragment extends DaggerFragment {
         });
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("불러오는중");
+        progressDialog.setTitle(R.string.app_name);
+    }
+
     private void loadData() {
         progressDialog.show();
-        retrofitService.requestContacts().subscribe(
+        retrofitService.requestContacts()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io()).subscribe(
                 contacts -> {
-                    Log.e("TEST", contacts.toString());
                     saveData(contacts);
+                },
+                throwable -> {
                     progressDialog.dismiss();
-                }, throwable -> {
+                },
+                () -> {
                     progressDialog.dismiss();
-                });
+        });
     }
 
     private void saveData(Contacts contacts) {

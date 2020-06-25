@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 import co.kr.chanroid.myapplication.TestApplication;
 import co.kr.chanroid.myapplication.dagger.modules.ActivityBindingModule;
 import co.kr.chanroid.myapplication.dagger.modules.ApplicationModule;
+import co.kr.chanroid.myapplication.dagger.modules.DatabaseModule;
 import co.kr.chanroid.myapplication.dagger.modules.RetrofitModule;
 import co.kr.chanroid.myapplication.dagger.modules.TestModule;
 import dagger.BindsInstance;
@@ -20,7 +21,8 @@ import dagger.android.support.AndroidSupportInjectionModule;
         ActivityBindingModule.class,
         ApplicationModule.class,
         AndroidSupportInjectionModule.class,
-        RetrofitModule.class
+        RetrofitModule.class,
+        DatabaseModule.class
 })
 public interface AppComponent extends AndroidInjector<TestApplication> {
 

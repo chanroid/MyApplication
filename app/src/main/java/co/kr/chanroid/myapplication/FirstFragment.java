@@ -1,6 +1,7 @@
 package co.kr.chanroid.myapplication;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,14 +11,23 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.squareup.sqldelight.android.AndroidSqliteDriver;
+import com.squareup.sqldelight.db.SqlDriver;
+
+import java.util.List;
+
 import javax.inject.Inject;
 
+import co.kr.chanroid.myapplication.retrofit.Contacts;
 import co.kr.chanroid.myapplication.retrofit.RetrofitService;
+import co.kr.chanroid.myapplication.sqldelight.ContactsQueries;
 import dagger.android.support.DaggerFragment;
 
 public class FirstFragment extends DaggerFragment {
     @Inject
     RetrofitService retrofitService;
+    @Inject
+    Database database;
 
     private ProgressDialog progressDialog;
 
@@ -48,9 +58,14 @@ public class FirstFragment extends DaggerFragment {
         retrofitService.requestContacts().subscribe(
                 contacts -> {
                     Log.e("TEST", contacts.toString());
+                    saveData(contacts);
                     progressDialog.dismiss();
                 }, throwable -> {
                     progressDialog.dismiss();
                 });
+    }
+
+    private void saveData(Contacts contacts) {
+
     }
 }
